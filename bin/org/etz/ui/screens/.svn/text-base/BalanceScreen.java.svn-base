@@ -1,0 +1,80 @@
+package org.readycash.ui.screens;
+
+import javax.microedition.lcdui.TextBox;
+
+import org.readycash.core.BackEndProcessorEventListener;
+
+import net.rim.device.api.ui.DrawStyle;
+import net.rim.device.api.ui.Field;
+import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.XYEdges;
+import net.rim.device.api.ui.component.BasicEditField;
+import net.rim.device.api.ui.component.ButtonField;
+import net.rim.device.api.ui.component.LabelField;
+import net.rim.device.api.ui.component.PasswordEditField;
+import net.rim.device.api.ui.component.TextField;
+import net.rim.device.api.ui.container.VerticalFieldManager;
+
+import com.blackberry.toolkit.ui.ForegroundManager;
+import com.blackberry.toolkit.ui.component.ListStyleButtonField;
+import com.blackberry.toolkit.ui.container.CurvedSideFieldManager;
+import com.blackberry.toolkit.ui.container.HorizontalListStyleButtonSet;
+import com.blackberry.toolkit.ui.container.VerticalButtonFieldSet;
+
+public class BalanceScreen extends AppScreen {
+
+	
+
+	public BalanceScreen() {
+		super();
+		setTitle("Balance");
+		// TODO Auto-generated constructor stub
+		setupAccountNumber(cv);
+
+		setupPIN(cv);
+		fm.add(cv);
+		
+		setupActionButton(fm, "Get Balance", "http://62.173.32.27:8085/BE/08034083054/emeka", this,true);
+		add(fm);
+
+	}
+
+	public String getSummary() {
+		return "Would you like to retrieve your balance?";
+	}
+
+	public String getActivityTitle() {
+		return "balance";
+	}
+
+	public void handleResponse(Object responseData) {
+		clearFields();
+		UiApplication.getUiApplication().popScreen(this);
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	protected void clearFields() {
+		// TODO Auto-generated method stub
+		super.pPIN.setText("");
+		
+	}
+	
+	public boolean onClose() {
+		// TODO Auto-generated method stub
+		clearFields();
+		setDirty(false);
+		return super.onClose();
+	}
+
+	public String getAction() {
+		// TODO Auto-generated method stub
+		return "";
+	}
+
+	public String getInvalidDataSummary() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

@@ -1,0 +1,210 @@
+//#preprocessor
+package org.readycash.ui.screens;
+
+import org.readycash.core.BackEndProcessorEventListener;
+import org.readycash.core.StoreManager;
+
+import com.blackberry.toolkit.ui.ForegroundManager;
+import com.blackberry.toolkit.ui.component.BorderedEditField;
+import com.blackberry.toolkit.ui.component.BorderedPasswordField;
+import com.blackberry.toolkit.ui.component.ListStyleButtonField;
+import com.blackberry.toolkit.ui.container.CurvedSideFieldManager;
+import com.blackberry.toolkit.ui.container.HorizontalListStyleButtonSet;
+
+import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.system.Display;
+import net.rim.device.api.ui.Color;
+import net.rim.device.api.ui.DrawStyle;
+import net.rim.device.api.ui.Font;
+import net.rim.device.api.ui.FontFamily;
+import net.rim.device.api.ui.Graphics;
+import net.rim.device.api.ui.Manager;
+import net.rim.device.api.ui.Ui;
+import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.XYEdges;
+import net.rim.device.api.ui.component.BasicEditField;
+import net.rim.device.api.ui.component.BitmapField;
+import net.rim.device.api.ui.component.Dialog;
+import net.rim.device.api.ui.component.LabelField;
+import net.rim.device.api.ui.component.Menu;
+import net.rim.device.api.ui.container.MainScreen;
+import net.rim.device.api.ui.decor.Background;
+import net.rim.device.api.ui.decor.BackgroundFactory;
+import net.rim.device.api.ui.decor.Border;
+import net.rim.device.api.ui.decor.BorderFactory;
+
+public abstract class AppScreen extends MainScreen {
+	// Border _menuBorder;
+	Background _menuBackground;
+	Font _menuFont;
+	protected BorderedPasswordField pPIN;
+	protected BorderedEditField bAmount;
+	protected BorderedEditField bPhoneNumber;
+	ForegroundManager fm;
+	CurvedSideFieldManager cv;
+	protected Bitmap _caret = Bitmap.getBitmapResource( "menu-bullet.png" );
+
+	public AppScreen() {
+		this(0);
+	}
+
+	public boolean onClose() {
+		// TODO Auto-generated method stub
+		super.onClose();
+		setDirty(false);
+		return true;
+	}
+
+	protected void makeMenu(Menu menu, int context) {
+		// #ifndef VER_4.6.1 | VER_4.6.0 | VER_4.5.0 | VER_4.2.1 | VER_4.2.0
+		// menu.setBorder(_menuBorder);
+		// menu.setBackground(_menuBackground);
+		// #endif
+
+		// menu.setFont(_menuFont);
+		super.makeMenu(menu, context);
+	}
+
+	protected Border textBorder = null;
+
+	public AppScreen(long style) {
+		super(style | NO_VERTICAL_SCROLL | USE_ALL_HEIGHT);
+		fm = new ForegroundManager();
+		cv = new CurvedSideFieldManager();
+
+		XYEdges xy = new XYEdges(10, 10, 10, 10);
+		textBorder = BorderFactory.createRoundedBorder(xy);
+
+		// TODO Auto-generated constructor stub
+		XYEdges thickPadding = new XYEdges(1, 1, 1, 1);
+		// _menuBorder = BorderFactory.createRoundedBorder(thickPadding,
+		// Border.STYLE_SOLID);
+		_menuBackground = BackgroundFactory
+				.createSolidBackground(Color.GREENYELLOW);// , 50);
+		try {
+			FontFamily family = FontFamily.forName("BBSans");
+			_menuFont = family.getFont(Font.PLAIN, 30, Ui.UNITS_px);
+		} catch (final ClassNotFoundException cnfe) {
+			UiApplication.getUiApplication().invokeLater(new Runnable() {
+				public void run() {
+					Dialog.alert("FontFamily.forName() threw "
+							+ cnfe.toString());
+				}
+			});
+		}
+	}
+
+	public void setTitle(String title) {
+
+		Bitmap bmp = Bitmap.getBitmapResource("title-bar.png");
+		TitleLabel lf = new TitleLabel(title, LabelField.FIELD_BOTTOM);
+		Font f = Font.getDefault().derive(Font.PLAIN,4,Ui.UNITS_pt);	
+		lf.setText(title);		
+		lf.setHeight(bmp.getHeight());
+		lf.setBackground(BackgroundFactory.createBitmapBackground(bmp));
+		lf.setFont(f);
+		lf.setPosition(0);
+		
+		super.setTitle(lf);
+
+	}
+
+	public abstract String getActivityTitle();
+
+	public abstract String getSummary();
+
+	public abstract void handleResponse(Object responseData);
+
+	protected abstract void clearFields();
+	
+	public abstract String getAction();
+	
+	public abstract String getInvalidDataSummary();
+
+	public void setupPIN(Manager parent, String title,
+			BorderedPasswordField pinField) {
+		if (title == null)
+			parent.add(new LabelField("PIN: "));
+		else
+			parent.add(new LabelField(title + ": "));
+		if (pinField == null) {
+			pPIN = new BorderedPasswordField();
+			parent.add(pPIN);
+		} else {
+
+			parent.add(pinField);
+		}
+	}
+
+	public void setupPIN(Manager parent) {
+		setupPIN(parent, null, null);
+	}
+
+	public void setupAmount(Manager parent) {
+		parent.add(new LabelField("Amount"));
+		bAmount = new BorderedEditField(BasicEditField.FILTER_NUMERIC);
+		parent.add(bAmount);
+	}
+	
+	public void setupAccountNumber(Manager parent)
+	{
+		parent.add(new LabelField("Account #"));
+		parent.add(new LabelField(StoreManager.getPhoneNumber()));
+	}
+
+	public void setupPhoneNumber(Manager parent) {
+		parent.add(new LabelField("Phone Number"));
+		bPhoneNumber = new BorderedEditField(BasicEditField.FILTER_PHONE);
+		parent.add(bPhoneNumber);
+	}
+
+	public void setupActionButton(Manager parent, String title, String url,
+			AppScreen owner,boolean failover) {
+		ListStyleButtonField btnWithdraw = new ListStyleButtonField(title,
+				DrawStyle.HCENTER);
+
+		btnWithdraw.setChangeListener(new BackEndProcessorEventListener(url,
+				owner,failover));
+
+		HorizontalListStyleButtonSet btnSet = new HorizontalListStyleButtonSet();
+		btnSet.add(btnWithdraw);
+		parent.add(btnSet);
+	}
+
+	public void setupActionButton(Manager parent, String title, String url,
+			AppScreen owner)
+	{
+		setupActionButton(parent, title, url, owner,false);
+	}
+	private final class TitleLabel extends LabelField {
+
+		private int prefHeight;
+
+		public TitleLabel(String title, long style) {
+			super(title, style);
+		}
+		
+		public void setPosition(int position) {
+			int adv = this.getFont().getAdvance(this.getText());
+			int pos = Display.getWidth() - adv;
+			super.setPosition(pos);
+		}
+		protected void layout(int width, int height) {
+			// TODO Auto-generated method stub
+			 int prefWidth = Display.getWidth();
+			super.layout(prefWidth, prefHeight);
+			setExtent(prefWidth, prefHeight);
+		}
+
+		protected void setHeight(int height) {
+			prefHeight = height;
+		}
+
+		protected void paint(Graphics g) {
+			// TODO Auto-generated method stub
+			g.setColor(Color.BLACK);
+			super.paint(g);
+		}
+	}
+
+}

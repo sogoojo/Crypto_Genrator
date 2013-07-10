@@ -1,0 +1,84 @@
+10
+
+dir
+0
+svn://192.168.1.200/trunk/ReadyCash_Agent/src/org/bouncycastle/crypto/modes
+svn://192.168.1.200
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bb40c496-5949-af4f-9cdd-fb4c9db8a386
+
+AEADBlockCipher.java
+file
+
+
+
+add
+
+GOFBBlockCipher.java
+file
+
+
+
+add
+
+SICBlockCipher.java
+file
+
+
+
+add
+
+PGPCFBBlockCipher.java
+file
+
+
+
+add
+
+PaddedBlockCipher.java
+file
+
+
+
+add
+
+OpenPGPCFBBlockCipher.java
+file
+
+
+
+add
+
+OFBBlockCipher.java
+file
+
+
+
+add
+
+CBCBlockCipher.java
+file
+
+
+
+add
+

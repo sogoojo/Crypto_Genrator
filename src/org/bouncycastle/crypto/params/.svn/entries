@@ -1,0 +1,63 @@
+10
+
+dir
+0
+svn://192.168.1.200/trunk/ReadyCash_Agent/src/org/bouncycastle/crypto/params
+svn://192.168.1.200
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bb40c496-5949-af4f-9cdd-fb4c9db8a386
+
+DESParameters.java
+file
+
+
+
+add
+
+ParametersWithRandom.java
+file
+
+
+
+add
+
+KeyParameter.java
+file
+
+
+
+add
+
+DESedeParameters.java
+file
+
+
+
+add
+
+ParametersWithIV.java
+file
+
+
+
+add
+

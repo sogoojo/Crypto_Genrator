@@ -1,0 +1,108 @@
+package org.readycash.ui.screens;
+
+import java.util.Date;
+
+import org.readycash.core.Security;
+import org.readycash.core.StoreManager;
+import org.readycash.ui.component.InfoLabel;
+
+import net.rim.device.api.i18n.SimpleDateFormat;
+import net.rim.device.api.ui.UiApplication;
+import net.rim.device.api.ui.component.DateField;
+import net.rim.device.api.ui.component.LabelField;
+import net.rim.device.api.ui.component.RadioButtonField;
+import net.rim.device.api.ui.component.RadioButtonGroup;
+import com.blackberry.toolkit.ui.component.BorderedEditField;
+
+public class RegisterScreen extends AppScreen {
+
+	private BorderedEditField bLastName;
+	private BorderedEditField bFirstName;
+	private RadioButtonGroup rbgSex;
+	private DateField df;
+	
+	public RegisterScreen() {
+		super();
+		setTitle("Register");
+		cv.add(new InfoLabel(0, "Please fill the form below", 0));
+		cv.add(new LabelField("Last Name :"));
+
+		 bLastName = new BorderedEditField();
+		cv.add(bLastName);
+
+		cv.add(new LabelField("First Name :"));
+
+		 bFirstName = new BorderedEditField();
+
+		cv.add(bFirstName);
+
+		cv.add(new LabelField("Sex :"));
+
+		 rbgSex = new RadioButtonGroup();
+
+		RadioButtonField rbfMale = new RadioButtonField("Male", rbgSex, false);
+		RadioButtonField rbfFemale = new RadioButtonField("Female", rbgSex,
+				false);
+
+		cv.add(rbfMale);
+		cv.add(rbfFemale);
+
+		cv.add(new LabelField("Date Of Birth :"));
+		Date d = new Date();
+		 df = new DateField("", d.getTime(), new SimpleDateFormat(
+				"dd-MMM-yyyy"));
+		cv.add(df);
+
+		fm.add(cv);
+
+		setupActionButton(fm, "Register", "", this);
+		add(fm);
+
+	}
+	
+	public String getAction()
+	{
+		String lastName = bLastName.getText();
+		String firstName = bFirstName.getText();
+		int sex = rbgSex.getSelectedIndex();
+		long date = df.getDate();
+		String data =lastName + "/" +firstName + "/" + sex + "/"+date+"/" + StoreManager.getDEK() ;
+		data = Security.encrypt(Security.KEY_MASTER,data);
+		return "T/RU/"  + data;
+		
+	}
+
+	public String getActivityTitle() {
+		return "Register";
+	}
+
+	public String getSummary() {
+		// TODO Auto-generated method stub
+		return "You are about to register";
+	}
+
+	public void handleResponse(Object responseData) {
+		String resp = (String) responseData;
+		// if(resp == "301"){
+		StoreManager.setRegisteredStatus(Boolean.TRUE);
+		UiApplication.getUiApplication().popScreen(this);
+		UiApplication.getUiApplication().pushScreen(new VerificationScreen());
+		
+		// }
+
+	}
+	public boolean isDataValid() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	
+	protected void clearFields() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getInvalidDataSummary() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

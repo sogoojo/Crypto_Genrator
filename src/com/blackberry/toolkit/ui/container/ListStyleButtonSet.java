@@ -1,0 +1,85 @@
+/*
+ * ListStyleButtonSet.java
+ *
+ * Research In Motion Limited proprietary and confidential
+ * Copyright Research In Motion Limited, 2009-2009
+ */
+
+package com.blackberry.toolkit.ui.container;
+
+import org.etz.core.PushScreenEventListener;
+
+import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.ui.*;
+import net.rim.device.api.ui.container.*;
+
+import com.blackberry.toolkit.ui.component.*;
+
+
+/**
+ * 
+ */
+public class ListStyleButtonSet extends VerticalFieldManager 
+{
+    public static final int MARGIN = 5;
+    
+    public ListStyleButtonSet()
+    {
+        super( NO_VERTICAL_SCROLL );
+        setMargin( 5, 5, 5, 5 );
+    }
+    
+    public ListStyleButtonField addCustom(Bitmap icon, Bitmap actionIcon, String text)
+    {
+    	ListStyleButtonField link = new ListStyleButtonField(icon,text,actionIcon,0);
+    	
+       // link.setChangeListener(new PushScreenEventListener(toPush));
+    	add(link);
+    	return link;
+        
+    }
+    
+    public ListStyleButtonField addCustom(Bitmap icon, Bitmap actionIcon, String text,int fontSize)
+    {
+    	ListStyleButtonField link = new ListStyleButtonField(icon,text,actionIcon,0);
+    	Font f = Font.getDefault();
+    	f = f.derive(0, f.getHeight()- fontSize);
+    	link.setFont(f);
+       // link.setChangeListener(new PushScreenEventListener(toPush));
+    	add(link);
+    	return link;
+        
+    }
+    
+    
+    protected void sublayout( int maxWidth, int maxHeight )
+    {
+        super.sublayout( maxWidth, maxHeight );
+        
+        int numChildren = this.getFieldCount();
+        if( numChildren > 0 ) {
+            if( numChildren == 1 ) {
+                Field child = getField( 0 );
+                if( child instanceof ListStyleButtonField ) {
+                    ( (ListStyleButtonField) child ).setDrawPosition( ListStyleButtonField.DRAWPOSITION_SINGLE );
+                }
+            } else {
+                int index = 0;
+                Field child = getField( index );
+                if( child instanceof ListStyleButtonField ) {
+                    ( (ListStyleButtonField) child ).setDrawPosition( ListStyleButtonField.DRAWPOSITION_TOP );
+                }
+                for( index = 1; index < numChildren - 1 ; index++ ) {
+                    child = getField( index );
+                    if( child instanceof ListStyleButtonField ) {
+                        ( (ListStyleButtonField) child ).setDrawPosition( ListStyleButtonField.DRAWPOSITION_MIDDLE );
+                    }
+                }
+                child = getField( index );
+                if( child instanceof ListStyleButtonField ) {
+                    ( (ListStyleButtonField) child ).setDrawPosition( ListStyleButtonField.DRAWPOSITION_BOTTOM );
+                }
+            }
+        }
+    }
+}

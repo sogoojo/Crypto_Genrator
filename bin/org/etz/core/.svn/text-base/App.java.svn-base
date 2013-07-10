@@ -1,0 +1,61 @@
+package org.readycash.core;
+
+import java.util.Vector;
+
+import org.readycash.ui.ReadyCashSystemMenu;
+import org.readycash.ui.screens.AppScreen;
+import org.readycash.ui.screens.MainMenuScreen;
+import org.readycash.ui.screens.RegisterScreen;
+import org.readycash.ui.screens.VerificationScreen;
+
+import net.rim.blackberry.api.menuitem.ApplicationMenuItemRepository;
+import net.rim.device.api.system.PersistentObject;
+import net.rim.device.api.system.PersistentStore;
+import net.rim.device.api.ui.UiApplication;
+
+public class App extends UiApplication {
+
+	/**
+	 * @param args
+	 */
+
+	
+	public App() {
+
+		new StoreManager();
+		if(!StoreManager.isDEKSet())
+		{
+		
+			StoreManager.setDEK();
+		}
+		if (StoreManager.getRegisteredStatus().booleanValue()) {
+			if (StoreManager.getVerifiedStatus().booleanValue()) {
+				pushScreen(new MainMenuScreen());
+			} else {
+				pushScreen(new VerificationScreen());
+			}
+		} else
+			pushScreen(new RegisterScreen());
+
+	}
+
+	public static void main(String[] args) {
+
+		if (args != null && args.length > 0 && args[0].equals("autostartup")) {
+			// Keep this instance around for rendering
+			// Notification dialogs.
+			ReadyCashSystemMenu menuitem = new ReadyCashSystemMenu();
+			ApplicationMenuItemRepository
+					.getInstance()
+					.addMenuItem(
+							ApplicationMenuItemRepository.MENUITEM_ADDRESSCARD_VIEW
+									| ApplicationMenuItemRepository.MENUITEM_ADDRESSCARD_VIEW,
+							menuitem);
+
+		} else {
+			new App().enterEventDispatcher();
+		}
+
+	}
+
+}

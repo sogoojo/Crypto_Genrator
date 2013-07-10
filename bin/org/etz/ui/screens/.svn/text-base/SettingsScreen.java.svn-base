@@ -1,0 +1,84 @@
+package org.readycash.ui.screens;
+
+import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.ui.component.LabelField;
+import com.blackberry.toolkit.ui.component.LabeledSwitch;
+import com.blackberry.toolkit.ui.container.JustifiedHorizontalFieldManager;
+
+public class SettingsScreen extends AppScreen {
+
+	public SettingsScreen() {
+		super();
+		// TODO Auto-generated constructor stub
+		setTitle("Settings");
+
+		
+		LabelField network = new LabelField("Network");
+		
+		fm.add(network);
+
+		
+		Bitmap switch_left = Bitmap.getBitmapResource("switch_left.png");
+		Bitmap switch_right = Bitmap.getBitmapResource("switch_right.png");
+		Bitmap switch_left_focus = Bitmap
+				.getBitmapResource("switch_left_focus.png");
+		Bitmap switch_right_focus = Bitmap
+				.getBitmapResource("switch_right_focus.png");
+
+		LabeledSwitch gprsSwitch = new LabeledSwitch(switch_left, switch_right,
+				switch_left_focus, switch_right_focus, "on", "off", true);
+		JustifiedHorizontalFieldManager gprs = new JustifiedHorizontalFieldManager(
+				new LabelField("GPRS"), gprsSwitch, false, USE_ALL_WIDTH);
+		// phoneCalls.setPadding(5,5,5,5);
+
+		LabeledSwitch smsSwitch = new LabeledSwitch(switch_left, switch_right,
+				switch_left_focus, switch_right_focus, "on", "off", true);
+		JustifiedHorizontalFieldManager sms = new JustifiedHorizontalFieldManager(
+				new LabelField("SMS"), smsSwitch, false, USE_ALL_WIDTH);
+
+		LabeledSwitch notifySwitch = new LabeledSwitch(switch_left,
+				switch_right, switch_left_focus, switch_right_focus, "on",
+				"off", true);
+		JustifiedHorizontalFieldManager notification = new JustifiedHorizontalFieldManager(
+				new LabelField("Notifications"), notifySwitch, false,
+				USE_ALL_WIDTH);
+
+		cv.add(gprs);
+		cv.add(sms);
+		cv.add(notification);
+		fm.add(cv);
+
+		
+
+		add(fm);
+	}
+
+	public String getActivityTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getSummary() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void handleResponse(Object responseData) {
+		// TODO Auto-generated method stub
+		
+	}
+	protected void clearFields() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getAction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getInvalidDataSummary() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

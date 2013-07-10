@@ -1,0 +1,103 @@
+package org.readycash.ui.screens;
+
+import org.readycash.core.PushScreenEventListener;
+
+import net.rim.device.api.system.Bitmap;
+import net.rim.device.api.system.Display;
+import net.rim.device.api.ui.Field;
+import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.component.Dialog;
+import net.rim.device.api.ui.component.LabelField;
+import net.rim.device.api.ui.container.MainScreen;
+
+import com.blackberry.toolkit.ui.ForegroundManager;
+import com.blackberry.toolkit.ui.container.ListStyleButtonSet;
+
+public class MainMenuScreen extends AppScreen {
+
+	// private Bitmap _caret = Bitmap.getBitmapResource(
+	// "chevron_right_black_15x22.png" );
+
+	ForegroundManager foreground;
+
+	public MainMenuScreen() {
+
+		super();
+		setTitle("Main Menu");
+		foreground = new ForegroundManager();
+
+		ListStyleButtonSet buttonSet = new ListStyleButtonSet();
+
+		buttonSet.addCustom(Bitmap.getBitmapResource("icon-balance-32.png"),
+				_caret, "Balance").setChangeListener(
+				new PushScreenEventListener(new BalanceScreen()));
+		buttonSet.addCustom(Bitmap.getBitmapResource("icon-sendmoney-32.png"),
+				_caret, "Send Money").setChangeListener(
+				new PushScreenEventListener(new SendMoneyScreen(null)));
+		buttonSet.addCustom(Bitmap.getBitmapResource("icon-withdraw-32.png"),
+				_caret, "Withdraw Money").setChangeListener(
+				new PushScreenEventListener(new WithdrawSubMenu()));
+		// , new MainMenuScreen());
+		buttonSet.addCustom(
+				Bitmap.getBitmapResource("icon-transactions-32.png"), _caret,
+				"Transactions").setChangeListener(
+				new PushScreenEventListener(new TransactionSubMenu()));// new
+																		// MainMenuScreen());
+		buttonSet.addCustom(Bitmap.getBitmapResource("icon-recharge-32.png"),
+				_caret, "Recharge").setChangeListener(
+				new PushScreenEventListener(new RechargeScreen()));
+		buttonSet.addCustom(Bitmap.getBitmapResource("icon-security-32.png"),
+				_caret, "Security").setChangeListener(
+				new PushScreenEventListener(new SecuritySubmenuScreen()));
+		buttonSet.addCustom(Bitmap.getBitmapResource("icon-settings-32.png"),
+				_caret, "Settings").setChangeListener(
+				new PushScreenEventListener(new SettingsScreen()));// new
+		// MainMenuScreen());
+
+		foreground.add(buttonSet);
+		add(foreground);
+
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getActivityTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getSummary() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void handleResponse(Object responseData) {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void clearFields() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public boolean onClose() {
+		int resp = Dialog
+				.ask(Dialog.D_YES_NO, "Do you want to quit ReadyCash?");
+		if (resp == Dialog.YES) {
+			return super.onClose();
+		}
+		return false;
+
+	}
+
+	public String getAction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getInvalidDataSummary() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,58 @@
+package org.readycash.ui.screens;
+
+import org.readycash.core.PushScreenEventListener;
+
+import net.rim.device.api.system.Bitmap;
+
+import com.blackberry.toolkit.ui.ForegroundManager;
+import com.blackberry.toolkit.ui.container.ListStyleButtonSet;
+
+public class SecuritySubmenuScreen extends AppScreen {
+
+	
+	
+	public SecuritySubmenuScreen() {
+		super();
+		setTitle("Security Menu");
+		
+		
+		ListStyleButtonSet buttonSet = new ListStyleButtonSet();
+		buttonSet.addCustom(null, _caret, "Change PIN").setChangeListener(new PushScreenEventListener(new ChangePINScreen()));//, new MainMenuScreen());
+		buttonSet.addCustom(null, _caret, "One Time Password").setChangeListener(new PushScreenEventListener(new OTPScreen()));
+		buttonSet.addCustom(null, _caret, "Disable Account");
+		
+		fm.add(buttonSet);
+		add(fm);
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getActivityTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getSummary() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void handleResponse(Object responseData) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	protected void clearFields() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getAction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getInvalidDataSummary() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

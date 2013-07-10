@@ -1,0 +1,51 @@
+<loader version="1.0">
+	<application id="UnionMobileUK">
+		<name >
+			UnionBank UK
+		</name>
+		<description >
+			Mobile Banking Client
+		</description>
+		<version >
+			0.0.1
+		</version>
+		<vendor >
+			Etranzact Global
+		</vendor>
+		<copyright >
+			Copyright (c) 2012 Etranzact Global
+		</copyright>
+		<fileset Java="1.55" _blackberryVersion="[5.0.0,5.0.1)">
+			<directory >
+				5.0.0
+			</directory>
+			<files >
+				UnionMobileUK.cod
+
+			</files>
+
+		</fileset>
+		<fileset Java="1.55" _blackberryVersion="[6.0.0,6.0.1)">
+			<directory >
+				6.0.0
+			</directory>
+			<files >
+				UnionMobileUK.cod
+
+			</files>
+
+		</fileset>
+		<fileset Java="1.55" _blackberryVersion="[7.1.0)">
+			<directory >
+				7.1.0
+			</directory>
+			<files >
+				UnionMobileUK.cod
+
+			</files>
+
+		</fileset>
+
+	</application>
+
+</loader>
